@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+
+    .inputfile {
+        @apply w-full;
+        @apply h-36;
+        @apply opacity-0;
+        @apply overflow-hidden;
+        @apply absolute;
+        @apply z-10;
+        @apply top-6;
+        @apply cursor-pointer;
+    }
+    
+
+    .inputfile + label {
+        @apply cursor-pointer;
+        @apply relative;
+    }
+
+    .inputfile + label * {
+        @apply pointer-events-none
+    }
+
+}
