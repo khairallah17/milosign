@@ -3,6 +3,8 @@ import { BsCardImage } from "react-icons/bs"
 import { AiOutlineShareAlt, AiOutlineAppstoreAdd } from "react-icons/ai"
 import { CgTemplate } from "react-icons/cg"
 import { RiPaintLine } from "react-icons/ri"
+import { IoCaretBackOutline } from "react-icons/io5"
+import { GrReturn } from "react-icons/gr"
 import { Link } from 'react-router-dom'
 import globalContextHook from '../hooks/globalContextHook'
 
@@ -30,7 +32,8 @@ const SideBar = () => {
 
   return (
     <div className='w-fit h-full bg-primary text-white shadow-2xl'>
-        <ul className='flex flex-col items-center justify-center'>
+        <ul className='flex flex-col items-center justify-between h-full'>
+            <div className="upper flex flex-col items-center justify-center">
             {
 
                 nav.map(({text, icon} ,key) => (
@@ -43,6 +46,14 @@ const SideBar = () => {
                 ))
 
             }
+            </div>
+            <div className="lower flex items-center justify-center py-5 border-l-8 border-transparent duration-200 w-full hover:bg-white hover:text-yellow-500 hover:border-yellow-500">
+                <Link to="/">
+                    <li className="p-2 flex items-center justify-between gap-4">
+                        <IoCaretBackOutline className="text-3xl"/>
+                    </li>
+                </Link>
+            </div>
         </ul>
     </div>
   )
