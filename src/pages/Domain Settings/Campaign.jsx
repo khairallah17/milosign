@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react'
 import DomainLayout from '../../components/DomainLayout'
 import axios from 'axios'
+import DomainSettingsHook from '../../hooks/DomainSettingsHook'
 
 const Campaign = () => {
 
   const [timezones, setTimeZones] = useState([])
+
+  const { setActiveNav } = DomainSettingsHook()
 
   useEffect(() => {
 
@@ -24,6 +27,8 @@ const Campaign = () => {
     fetchtimeZones()
 
   },[])
+
+  setActiveNav("Campaign")
 
   return (
     <DomainLayout>

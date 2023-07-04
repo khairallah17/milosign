@@ -17,8 +17,6 @@ const Design = () => {
 
   setActiveLink("design")
 
-  console.log(fontSize)
-
   return (
     <Layout>
 

@@ -42,14 +42,9 @@ const Details = () => {
 
         const reader = new FileReader()
         reader.readAsDataURL(e.target.files[0])
-        reader.onload = () => {
-            console.log(reader.result)
-            setImage(reader.result)
-        }
-        reader.onerror = () => {
-            console.log("error ==> ", error)
-        }
-
+        reader.onload = () => setImage(reader.result)
+        reader.onerror = () => console.log("error ==> ", error)
+        
     }
 
   return (

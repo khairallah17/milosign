@@ -3,11 +3,16 @@ import GlobalLayout from '../components/GlobalLayout'
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
 import { AiOutlineSearch } from "react-icons/ai"
+import Modal from '../components/Modal'
+import { AnimatePresence } from 'framer-motion'
+import AddCampaign from './AddCampaign/AddCampaign'
+import { Toaster } from 'react-hot-toast'
 
 const Campaigns = () => {
 
 
     const [groups, setGroups] = useState(["group1","group2","group3"])
+    const [CampaingModal, setCampaignModal] = useState(false)
 
     const status = ["all", "live", "paused", "ended", "draft", "startingin the future"]
 
@@ -17,10 +22,21 @@ const Campaigns = () => {
         <div className="upper-campaing flex w-full items-center justify-between">
             <h1 className='text-2xl font-bold'>Campaign</h1>
             <div className="buttons flex gap-3 items-center">
-                <Link to="/campaigns/settings" className='capitalize text-blue-500'>campaign settings</Link>
-                <button className='capitalize bg-blue-500 p-2 rounded-lg text-white'>add campaign</button>
+                <Link to="/domain/campaign" className='capitalize text-blue-500'>campaign settings</Link>
+                <button onClick={() => setCampaignModal(true)} className='capitalize bg-blue-500 p-2 rounded-lg text-white'>add campaign</button>
             </div>
         </div>
+
+        <AnimatePresence
+            initial={false}
+        >
+            { 
+                CampaingModal && 
+                <Modal modalOpen={CampaingModal} className="" handleClose={() => setCampaignModal(false)}>
+                    <AddCampaign/>
+                </Modal>
+            }
+        </AnimatePresence>
 
         <div className="search-filters flex items-center justify-between">
 
@@ -81,6 +97,11 @@ const Campaigns = () => {
                 </tbody>
             </table>
         </div>
+
+        <Toaster
+            position="bottom-right"
+            reverseOrder={false}
+        />
 
     </GlobalLayout>
   )

@@ -2,6 +2,9 @@ import React from 'react'
 import DomainLayout from '../../components/DomainLayout'
 import DomainSettingsHook from '../../hooks/DomainSettingsHook'
 import { RxCross1 } from "react-icons/rx"
+import { FaFacebookF, FaLinkedinIn } from "react-icons/fa"
+import { BsTwitter, BsYoutube } from "react-icons/bs"
+import { FiInstagram } from "react-icons/fi"
 
 const CompanyDetails = () => {
 
@@ -28,9 +31,19 @@ const CompanyDetails = () => {
     companyCustomFields,
     setCompanyCustomFields,
     companyLogo,
-    setCompanyLogo } = DomainSettingsHook()
+    setCompanyLogo,
+    setActiveNav } = DomainSettingsHook()
 
     const inputClass = "outline-none border p-2 w-80 rounded-md"
+    const socialClass = "w-54 border-2 p-2 rounded-lg outline-none"
+
+    const socialLinks = [{icon: <FaFacebookF className=' text-white text-xl'/>, name: "facebook", value: companyFacebook, func: setCompanyFacebook},
+                         {icon: <FaLinkedinIn className=' text-white text-xl'/>, name: "linkedin", value: companyLinkedIn, func: setCompanyLinkedIn},
+                         {icon: <BsTwitter className='text-white text-xl' />, name: "twitter", value: companyTwitter, func: setCompanyTwitter},
+                         {icon: <FiInstagram className='text-white text-xl'/>, name: "instagram", value: companyInstagram, func: setCompanyInstagram},
+                         {icon: <BsYoutube className="text-white text-xl"/>, name:  "youtube", value: companyYoutube, func: setCompanyYoutube}]
+
+    setActiveNav("company details")
 
     const uploadImage = (e) => {
 
@@ -47,6 +60,7 @@ const CompanyDetails = () => {
 
   return (
     <DomainLayout>
+
       <div className="company-info flex justify-between py-10 border-b-2">
         <h1 className='capitalize font-bold w-1/2'>company info</h1>
         <div className="info-inputs w-1/2 flex flex-col gap-4">
@@ -90,6 +104,31 @@ const CompanyDetails = () => {
 
         </div>
       </div>
+
+      <div className="company-social-links flex justify-between py-10 border-b 2">
+            
+        <h1 className='capitalize font-semibold text-lg w-1/2'>company social links</h1>
+
+        <div className="social-links-inputs w-1/2 flex flex-col gap-4">
+            
+          {
+            socialLinks.map(({icon, name, value, func}, key) => (
+              <div key={key} className="facebook flex items-center gap-2">
+            
+                <div className="facebook-logo rounded-lg p-2 w-fit bg-black">
+                  {icon}
+                </div>
+
+                <input type="text" name={name} className={socialClass} value={value} onChange={(e) => func(e.target.value)} placeholder={`company ${name} link`} />
+
+              </div>
+            ))
+          }
+
+        </div>
+
+      </div>
+
     </DomainLayout>
   )
 }
