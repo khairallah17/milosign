@@ -81,10 +81,7 @@ const Details = () => {
                 </div>
 
                 <div className="flex-grow relative">
-                    <button className=''>
-                        
-                    </button>
-                    <input type="file" name="image" onChange={(e) => uploadImage(e)} placeholder='hello' id="" className="inputfile" />
+                    <input type="file" name="image" onChange={(e) => uploadImage(e)} placeholder='hello' id="" className="inputfile h-36 w-36" />
                     <label htmlFor="image" className='capitalize border-dashed border-2 border-gray-200 !flex flex-col items-center justify-center h-36 w-36'>
                         <FcCameraAddon className='text-3xl' />
                         upload image
