@@ -7,11 +7,13 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: "#1D4ED8",
-        secondary: "bg-yello-500"
+        primary: {
+          DEFAULT: "#1D4ED8",
+          blue: "#004AAD"
+        },
+        secondary: "bg-yello-500",
       },
     },
   },
   plugins: [],
 }
-
