@@ -48,7 +48,7 @@ const SideBar = () => {
             }
             </div>
             <div className="lower flex items-center justify-center py-5 border-l-8 border-transparent duration-200 w-full hover:bg-white hover:text-yellow-500 hover:border-yellow-500">
-                <Link to="/">
+                <Link to="/organization">
                     <li className="p-2 flex items-center justify-between gap-4">
                         <IoCaretBackOutline className="text-3xl"/>
                     </li>
