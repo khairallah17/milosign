@@ -52,7 +52,7 @@ const AddCampaignPage2 = () => {
         
         <div className="flex relative upload-baner">
 
-          <input type="file" onChange={(e) => uploadBanner(e)} name="banner" accept='image/*' className='inputfile !top-0 h-full' />
+          <input type="file" onChange={(e) => uploadBanner(e)} name="banner" accept='image/*' className='inputfile !top-0 h-full w-full' />
           <label htmlFor="image" className='capitalize border-dashed border-2 border-gray-200 !flex flex-col items-center justify-center w-full p-4'>
               <FcCameraAddon className='text-3xl' />
               <p className='py-2' >upload your banner <span className='capitalize text-blue-400 underline' >here</span></p>
