@@ -2,14 +2,18 @@ import React from 'react'
 import GlobalLayout from '../components/GlobalLayout'
 import { BsTrash, BsSend, BsSearch } from "react-icons/bs"
 import { AiOutlineCheckCircle, AiOutlineMinusCircle } from "react-icons/ai"
+import OrganizationHook from "../hooks/OrganizationHook"
 
 const Organization = () => {
 
-  const buttons = ["settings","import / export users", "sync users"]
+  const buttons = ["Export", "Add Employees"]
   const settinsButtons  = [{ text: "invite", icon: <BsSend className='text-blue-400' /> },
                            { text: "enable", icon: <AiOutlineCheckCircle className='text-blue-400' /> },
                            { text: "disable", icon: <AiOutlineMinusCircle className='text-blue-400' /> },
                            { text: "delete", icon: <BsTrash className='text-red-400' /> }]
+
+  const { organizationGroups,
+          organizationSignature } = OrganizationHook()
 
   return (
     <GlobalLayout>
@@ -21,8 +25,8 @@ const Organization = () => {
       <div className="buttons-settings flex gap-2 justify-end">
         {
 
-          buttons.map(btn => (
-            <button type="button" className='text-white bg-blue-400 duration-200 hover:bg-blue-500 p-2 rounded-md'>
+          buttons.map((btn, key) => (
+            <button key={key} type="button" className='text-white bg-blue-500 duration-200 hover:bg-blue-400 p-2 rounded-md'>
               {btn}
             </button>
           ))
@@ -30,13 +34,13 @@ const Organization = () => {
         }
       </div>
 
-      <div className="settings flex items-end justify-between py-3">
+      {/* <div className="settings flex items-end justify-between py-3">
         
         <div className="settings-left flex gap-3">
           {
 
             settinsButtons.map(({text, icon}, key) => (
-              <button className='flex gap-2 items-center border p-2 rounded-md bg-gray-100 duration-200 hover:bg-gray-200'>
+              <button key={key} className='flex gap-2 items-center border p-2 rounded-md bg-gray-100 duration-200 hover:bg-gray-200'>
                   {icon}
                   {text}
               </button>
@@ -71,12 +75,10 @@ const Organization = () => {
 
         </div>
 
-      </div>
+      </div> */}
 
-      <div className="assign">
-          <select className='p-2 border bg-transparent' name="assign signatures" id="">
-            <option value="Assign signature for selected user(s)">Assign Signature For Selected User(s)</option>
-          </select>
+      <div className="filters">
+
       </div>
 
       <div className="users-table w-full mt-5">
