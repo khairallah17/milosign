@@ -1,4 +1,4 @@
-import React from 'react'
+import { useState, useEffect } from 'react'
 import Layout from '../components/Layout'
 import globalContextHook from '../hooks/globalContextHook'
 import { BiSquareRounded, BiSquare } from "react-icons/bi"
@@ -8,12 +8,36 @@ import { MdFormatTextdirectionLToR, MdFormatTextdirectionRToL } from "react-icon
 import { GiPlainCircle } from "react-icons/gi"
 import { BsFillSquareFill } from "react-icons/bs"
 import { FaTwitterSquare, FaTwitter } from "react-icons/fa"
+import Modal from '../components/Modal'
+import { SketchPicker } from 'react-color';
 
 const Design = () => {
 
   const { setActiveLink,
-          fontSize,
-          setFontSize } = globalContextHook()
+          fontSize,setFontSize,
+          font, setFont,
+          lineSpacing, setLineSpacing,
+          spaceFromContent, setSpaceFromContent,
+          templateColor, setTemplateColor, } = globalContextHook()
+
+  const incrementSpaceFromContent = () => setSpaceFromContent((prev) => prev + 1)
+  const decrementSpaceFromContent = () => setSpaceFromContent((prev) => prev - 1)
+
+  const [color, setColor] = useState("#000")
+
+  const changeColor = (color) => {
+    console.log(color.hex)
+    setColor(color.hex)
+  }
+
+  useEffect(() => {
+    const colorSetter = (color) => {
+      setColor(color)
+    }
+
+    colorSetter(color)
+
+  }, [color])
 
   setActiveLink("design")
 
@@ -22,7 +46,7 @@ const Design = () => {
 
       <div className="w-[500px] p-5 flex gap-10">
 
-        <div className="w-full h-full overflow-scroll">
+        <div className="w-full h-full overflow-scroll no-scrollbar">
 
           <div className="social-header flex items-center justify-between max-w-full w-full">
             
@@ -67,9 +91,9 @@ const Design = () => {
 
               <span className='text-gray-500 capitalize flex-grow'>space from content</span>
               <div className="spacings flex flex-grow w-[178px]">
-                <button className='border-t-2 border-b-2 border-l-2 border-gray-200 text-blue-400 p-2 py-1 w-full'>-</button>
-                <button className='border-2 border-gray-200 text-blue-400 p-2 py-1 w-full'>2</button>
-                <button className='border-t-2 border-b-2 border-r-2 border-gray-200 text-blue-400 p-2 py-1 w-full'>+</button>
+                <button className='border-t-2 border-b-2 border-l-2 border-gray-200 text-blue-400 p-2 py-1 w-full' onClick={decrementSpaceFromContent}>-</button>
+                <button className='border-2 border-gray-200 text-blue-400 p-2 py-1 w-full'>{spaceFromContent}</button>
+                <button className='border-t-2 border-b-2 border-r-2 border-gray-200 text-blue-400 p-2 py-1 w-full' onClick={incrementSpaceFromContent}>+</button>
               </div>
 
             </div>
@@ -77,7 +101,7 @@ const Design = () => {
             <div className="space-from-content flex w-full flex-grow justify-between items-center">
 
               <span className='text-gray-500 capitalize flex-grow'>template color</span>
-              <div className="spacings flex flex-grow w-[140px] gap-2 overflow-scroll">
+              <div className="spacings flex flex-grow w-[140px] gap-2 overflow-scroll no-scrollbar">
                 <button className="bg-green-500 rounded-full w-5 h-5"></button>
                 <button className="bg-red-500 rounded-full w-5 h-5"></button>
                 <button className="bg-violet-500 rounded-full w-5 h-5"></button>
@@ -87,6 +111,14 @@ const Design = () => {
                 <button className="bg-orange-500 rounded-full w-5 h-5"></button>
                 <button className="border-gray-300 border-2 flex items-center justify-center rounded-full w-5 h-5">+</button>
               </div>
+
+              <Modal open={true}>
+                <SketchPicker
+                  onChangeComplete={(e) => changeColor(e)}
+                  color={color}
+                />
+                <button className={`bg-${color}`} >color Changed</button>
+              </Modal>
 
             </div>
 
@@ -117,7 +149,7 @@ const Design = () => {
               <div className="size flex">
 
                 <span className="text-gray-500 capitalize flex-grow">size</span>
-                <input type="range" name="font size" max="40" min="12" value="20" className='w-1/2 bg-blue-400' id="" />
+                <input type="range" name="font size" max="40" min="12" value="20" className='w-1/2 bg-blue-400 z-10' id="" />
 
               </div>
 
@@ -209,7 +241,7 @@ const Design = () => {
             <div className="text-color flex w-full flex-grow justify-between items-center">
 
               <span className='text-gray-500 capitalize flex-grow'>text color</span>
-              <div className="spacings flex flex-grow w-[140px] gap-2 overflow-scroll">
+              <div className="spacings flex flex-grow w-[140px] gap-2 overflow-scroll no-scrollbar">
                 <button className="bg-gray-800 rounded-full w-5 h-5"></button>
                 <button className="bg-gray-700 rounded-full w-5 h-5"></button>
                 <button className="bg-gray-600 rounded-full w-5 h-5"></button>
@@ -314,7 +346,7 @@ const Design = () => {
             <div className="text-color flex w-full flex-grow justify-between items-center">
 
               <span className='text-gray-500 capitalize flex-grow'>text color</span>
-              <div className="spacings flex flex-grow w-[140px] gap-2 overflow-scroll">
+              <div className="spacings flex flex-grow w-[140px] gap-2 overflow-scroll no-scrollbar">
                 <button className="bg-gray-800 rounded-full w-5 h-5"></button>
                 <button className="bg-gray-700 rounded-full w-5 h-5"></button>
                 <button className="bg-gray-600 rounded-full w-5 h-5"></button>

@@ -7,7 +7,7 @@ const Layout = ({ children }) => {
     <div className='w-screen h-screen flex'>
         <SideBar/>
         <div className="flex-grow w-full flex">
-            <div className="w-[500px] p-5 flex gap-10 max-h-full overflow-scroll">
+            <div className="w-[500px] p-5 flex gap-10 max-h-full overflow-scroll no-scrollbar">
                 {children}
             </div>
             <div className="flex-grow bg-slate-200 flex items-center justify-center">

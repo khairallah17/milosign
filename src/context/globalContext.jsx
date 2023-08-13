@@ -25,7 +25,7 @@ export const GlobalProvider = ({ children }) => {
     const [font, setFont] = useState("")
     const [fontSize, setFontSize] = useState("12")
     const [lineSpacing, setLineSpacing] = useState("")
-    const [spaceFromContent, setSpaceFromContent] = useState("")
+    const [spaceFromContent, setSpaceFromContent] = useState(0)
     const [templateColor, setTemplateColor] = useState("")
 
     // IMAGE DESIGN
@@ -52,6 +52,16 @@ export const GlobalProvider = ({ children }) => {
     const [style, setStyle] = useState("")
     const [lineColor, setLineColor] = useState("")
 
+    // TEMPALTES
+    const [templates, setTemplates] = useReducer((templates, action) => {
+
+        switch (action.type) {
+            case "ADD" : return [...templates, action.template]
+            case "DELETE"  : return (templates.slice(action.index, action.index))
+        }
+
+    }, [])
+
 
     const [social, updateSocials] = useReducer((prev, next) => {
         return [...prev, ...next]
@@ -63,32 +73,27 @@ export const GlobalProvider = ({ children }) => {
     })
 
     const value = {
-        activeLink,
-        setActiveLink,
-        name,
-        setName,
-        title,
-        setTitle,
-        company, 
-        setCompany,
-        phone,
-        setPhone,
-        mobile,
-        setMobile,
-        website,
-        setWebsite,
-        address,
-        setAddress,
-        email,
-        setEmail,
-        image,
-        setImage,
-        social,
-        updateSocials,
+        activeLink, setActiveLink,
+        name, setName,
+        title, setTitle,
+        company, setCompany,
+        phone, setPhone,
+        mobile, setMobile,
+        website, setWebsite,
+        address, setAddress,
+        email, setEmail,
+        image, setImage,
+        social, updateSocials,
 
         //  TEXT DESIGN
-        fontSize,
-        setFontSize
+        font, setFont,
+        fontSize, setFontSize,
+        lineSpacing, setLineSpacing,
+        spaceFromContent, setSpaceFromContent,
+        templateColor, setTemplateColor,
+
+        //  TEMPALTE DESIGN
+        templates, setTemplates,
     }
 
     return (

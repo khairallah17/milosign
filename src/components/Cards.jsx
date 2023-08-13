@@ -1,4 +1,4 @@
-import React from 'react'
+import { useState } from 'react'
 import Signature from "../assets/signature.png"
 import Image from "../assets/profile-img.jpg"
 import Facebook from "../assets/social icons/facebook.png"
@@ -7,14 +7,105 @@ import LinkedIn from "../assets/social icons/linkedin.png"
 import Twitter from "../assets/social icons/twitter.png"
 import globalContextHook from '../hooks/globalContextHook'
 import { Link } from 'react-router-dom'
+import Modal from './Modal'
+import { toast, ToastContainer } from 'react-toastify'
+import DomainSettingsHook from "../hooks/DomainSettingsHook"
 
 const Cards = () => {
 
-    const {name, title, company, phone, mobile, website, email, address, social, image} = globalContextHook()
+    const { name, title, company, phone, mobile, website, email, address, social, image, setTemplates } = globalContextHook()
+    const { companyGroups } = DomainSettingsHook()
+
+    const [showModal, setShowModal] = useState(false)
+    const [templateName, setTemplateName] = useState("")
+    const [templateGroup, setTemplateGroup] = useState("")
+
+    const template = {
+        signature: Signature,
+        image,
+        title,
+        email,
+        phone,
+        website,
+        address,
+        social,
+        name: templateName,
+        group: templateGroup
+    }
+
+    const notification = (message, type) => {
+        toast(message, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            type: type
+        });
+    }
+
+    const createNewTemlate =  () => {
+        console.log(templateName)
+        console.log(templateGroup)
+        if (!templateName || !templateGroup)
+            return notification("Empty fields require!", "error")
+        notification("Template created successfully!", "success")
+        setShowModal(false)
+        setTemplates({type: "ADD", template: template, index: 0})
+    }
+
+    const inputClass = "border-2 rounded-md border-gray-200 outline-none px-2 py-1"
 
   return (
     <div className=' flex flex-col gap-5 items-end'>
-        
+
+        {
+            showModal &&
+            <Modal title={"Create New Template"} modalOpen={showModal} handleClose={() => setShowModal(false)} className={"w-96"} >
+                <div className='create-new-template flex flex-col gap-4 px-2'>
+
+                    <div className="template-name flex flex-col gap-2">
+                        <label htmlFor="name">Template name</label>
+                        <input type="text" name="name" onChange={(e) => setTemplateName(e.target.value)} value={templateName} className={inputClass} />
+                    </div>
+                    <div className='template-group flex flex-col gap-2'>
+                        <label htmlFor="group">Assign To</label>
+                        <select name="group" className={inputClass} onChange={(e) => setTemplateGroup(e.target.value)}>
+                            {
+                                companyGroups.map((grp, key) => (
+                                    <option value={grp} key={key}>
+                                        {grp}
+                                    </option>
+                                ))
+                            }
+                        </select>
+                    </div>
+
+                    <button className='bg-green-400 duration-200 hover:bg-green-500 text-white py-2 rounded-md' onClick={createNewTemlate}>
+                        Create Template
+                    </button>
+
+                </div>
+            </Modal>
+        }
+
+        <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+            />
+        <ToastContainer />
+                
         <div className="card">
             <div className="header w-full h-8 rounded-t-2xl p-[6px] px-3 bg-gray-400 flex gap-1 items-center">
                 <div className="circle w-4 h-4 bg-gray-200 rounded-full"></div>
@@ -56,7 +147,7 @@ const Cards = () => {
 
                             <p className='text-sm mb-1'>{address || "1937 Fieldcrest road, NY 10011"}</p>
 
-                            <div className="social-icons flex items-center gap-3 w-full overflow-scroll">
+                            <div className="social-icons flex items-center gap-3 w-full flex-wrap">
 
                                 <Link to={social.facebook} target="_blank">
                                     <img src={Facebook} alt="" className='w-8'/>
@@ -87,7 +178,9 @@ const Cards = () => {
             </div>
         </div>
 
-        <button className='w-fit bg-green-300 duration-200 hover:bg-green-400 p-2 px-14 rounded-xl text-white font-bold'>Ok, I'm Done</button>
+        <button className='w-fit capitalize bg-green-400 duration-200 hover:bg-green-500 p-2 px-14 rounded-md text-white font-bold' onClick={() => setShowModal(true)}>
+            create template
+        </button>
 
     </div>
   )

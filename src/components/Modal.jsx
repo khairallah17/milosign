@@ -2,7 +2,7 @@ import { motion } from "framer-motion"
 import Backdrop from "./Backdrop"
 import { RxCross1 } from "react-icons/rx"
 
-const Modal = ({ handleClose, children, className }) => {
+const Modal = ({ handleClose, children, className, title }) => {
 
     const dropIn = {
         hidden: {
@@ -36,7 +36,10 @@ const Modal = ({ handleClose, children, className }) => {
             animate="visible"
             exit="exit"
         >
-            <div className="top-modal flex items-center justify-end p-2">
+            <div className="top-modal flex items-center justify-between p-2">
+                <h1 className="font-bold text-lg capitalize">
+                    {title || ""}
+                </h1>
                 <motion.button 
                     className="w-fit exit-modal"
                     onClick={handleClose}

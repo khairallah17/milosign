@@ -15,12 +15,15 @@ export const DomainSettingsProvider = ({ children }) => {
     const [companyPhone, setCompanyPhone] = useState("")
     const [companyFax, setCompanyFax] = useState("")
     const [companyLogo, setCompanyLogo] = useState(null)
+    const [companyGroups, setCompanyGroups] = useState(["", "default", "main groups"])
+
     // COMPANY SOCIALS
     const [companyFacebook, setCompanyFacebook] = useState("")
     const [companyLinkedIn, setCompanyLinkedIn] = useState("")
     const [companyTwitter, setCompanyTwitter] = useState("")
     const [companyInstagram, setCompanyInstagram] = useState("")
     const [companyYoutube, setCompanyYoutube] = useState("")
+
     // COMPANY CUSTOM FIELDS
     const [companyCustomFields, setCompanyCustomFields] = useState([])
 
@@ -115,40 +118,23 @@ export const DomainSettingsProvider = ({ children }) => {
 
     }
 
-    const value = { activeNav,
-                    setActiveNav,
-                    domain,
-                    setDomain,
-                    companyName,
-                    setCompanyName,
-                    companyAddress,
-                    setCompanyAddress,
-                    companyWebsite,
-                    setCompanyWebsite,
-                    companyPhone,
-                    setCompanyPhone,
-                    companyFax,
-                    setCompanyFax,
-                    companyFacebook,
-                    setCompanyFacebook,
-                    companyLinkedIn,
-                    setCompanyLinkedIn,
-                    companyTwitter,
-                    setCompanyTwitter,
-                    companyInstagram,
-                    setCompanyInstagram,
-                    companyYoutube,
-                    setCompanyYoutube,
-                    companyCustomFields,
-                    setCompanyCustomFields,
-                    companyLogo,
-                    setCompanyLogo,
-                    campaignName,
-                    setCampaignName,
-                    campaignSource,
-                    setCampaignSource,
-                    campaignMedium,
-                    setCampaignMedium,
+    const value = { activeNav, setActiveNav,
+                    domain, setDomain,
+                    companyName, setCompanyName,
+                    companyAddress, setCompanyAddress,
+                    companyWebsite, setCompanyWebsite,
+                    companyPhone, setCompanyPhone,
+                    companyFax, setCompanyFax,
+                    companyFacebook, setCompanyFacebook,
+                    companyLinkedIn, setCompanyLinkedIn,
+                    companyTwitter, setCompanyTwitter,
+                    companyInstagram, setCompanyInstagram,
+                    companyYoutube, setCompanyYoutube,
+                    companyCustomFields, setCompanyCustomFields,
+                    companyLogo, setCompanyLogo,
+                    campaignName, setCampaignName,
+                    campaignSource, setCampaignSource,
+                    campaignMedium, setCampaignMedium,
                     employeeEmail,
                     employeeName,
                     employeePronouns,
@@ -181,7 +167,8 @@ export const DomainSettingsProvider = ({ children }) => {
                     emailSubject, setEmailSubject,
                     emailSender, setEmailSender,
                     askEmployeeToReview, setAskEmployeeToReview,
-                    manual, dispatchManual }
+                    manual, dispatchManual,
+                    companyGroups, setCompanyGroups }
 
   return (
     <DomainSettingsContext.Provider value={value}>
