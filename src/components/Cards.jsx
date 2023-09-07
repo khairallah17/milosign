@@ -10,10 +10,32 @@ import { Link } from 'react-router-dom'
 import Modal from './Modal'
 import { toast, ToastContainer } from 'react-toastify'
 import DomainSettingsHook from "../hooks/DomainSettingsHook"
+import Logo from "../assets/logo-lg.png"
+import { BiPhone } from "react-icons/bi"
+import { TbWorld } from "react-icons/tb"
+import { FaRegEnvelope, FaLocationDot } from "react-icons/fa"
 
 const Cards = () => {
 
-    const { name, title, company, phone, mobile, website, email, address, social, image, setTemplates } = globalContextHook()
+    const { name,
+            title,
+            company,
+            phone,
+            mobile,
+            website,
+            email,
+            address,
+            social,
+            image,
+            setTemplates,
+            templateColor,
+            fontSize,
+            imageSize,
+            imageLink,
+            imageShape,
+            imagePosition,
+            spaceFromContent,
+            lineSpacing } = globalContextHook()
     const { companyGroups } = DomainSettingsHook()
 
     const [showModal, setShowModal] = useState(false)
@@ -124,28 +146,51 @@ const Cards = () => {
                 </div>
 
                 <div className="signature mt-5 p-5">
-                    <img src={Signature} alt="hand signature image" className='w-36 mb-5' />
+                    <img src={Signature} style={{marginTop: spaceFromContent}} alt="hand signature image" className='w-36 mb-5' />
 
                     <div className="signature-info flex">
 
-                        <div className="image border-r-2 pr-5">
-                            <img src={image || Image} alt="signature user image" className='max-w-20 w-20' />
-                        </div>
+                        <Link to={"https://"+imageLink} target='_blank' className={`image border-r-2 pr-5 flex flex-col max-w-[300px] ${imagePosition}`}>
+                            <img src={image || Logo} style={{width: imageSize, borderRadius: imageShape}} alt="signature user image" />
+                        </Link>
 
-                        <div className="user-info pl-5 flex flex-col gap-2">
+                        <div className="user-info pl-5 flex flex-col gap-2 w-[90%] max-w-[90%]">
 
                             <h1 className='flex flex-col text-gray-400'>
-                                <span className={`font-bold text-[]`}>{name || "Mohammed khairallah"}</span>
+                                <span className={`font-bold mb-2`} style={{color: templateColor, fontSize: fontSize, marginBottom: lineSpacing, fontSize: (fontSize)}}>{name || "Mohammed khairallah"}</span>
                                 <span>{title || "Full Stack developer"}</span>
                             </h1>
                             
-                            <div className="phone-email-website text-sm">
-                                <span className='border-r-2 border-gray-400 pr-2'>{phone || "212-931-0000"}</span>
-                                <span className='border-r-2 border-gray-400 px-2'>{website || "www.mohammedkhairallah.com"}</span>
-                                <span className='pl-2'>{email || "contact@mohammedkhairallah.com"}</span>
+                            <div className="phone-email-website flex flex-wrap w-full gap-2 items-center">
+                                <p style={{fontSize: (fontSize - 2)}} className=''>
+                                    <span>
+                                        <span className='font-bold' style={{color: templateColor}}>Mobile </span>
+                                        {phone || "+212-931-0000"}
+                                    </span>
+                                </p>
+                                <div className='h-3 w-[1px] bg-gray-400'></div>
+                                <p style={{fontSize: (fontSize - 2)}} className=''>
+                                    <span>
+                                        <span className='font-bold' style={{color: templateColor}}>Website </span>
+                                        {website || "www.mohammedkhairallah.com"}
+                                    </span>
+                                </p>
+                                <div className='h-3 w-[1px] bg-gray-400'></div>
+                                <p style={{fontSize: (fontSize - 2)}} className=''>
+                                    <span>
+                                        <span className='font-bold' style={{color: templateColor}}>Email </span>
+                                        {email || "contact@med.com"}
+                                    </span>
+                                </p>
+                                <div className='h-3 w-[1px] bg-gray-400'></div>
+                                <p style={{fontSize: (fontSize - 2)}} className=''>
+                                    <span>
+                                        <span className='font-bold' style={{color: templateColor}}>Address </span>
+                                        {address || "1937 Fieldcrest road, NY 10011"}
+                                    </span>
+                                </p>
                             </div>
 
-                            <p className='text-sm mb-1'>{address || "1937 Fieldcrest road, NY 10011"}</p>
 
                             <div className="social-icons flex items-center gap-3 w-full flex-wrap">
 

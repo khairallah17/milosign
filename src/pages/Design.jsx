@@ -9,7 +9,9 @@ import { GiPlainCircle } from "react-icons/gi"
 import { BsFillSquareFill } from "react-icons/bs"
 import { FaTwitterSquare, FaTwitter } from "react-icons/fa"
 import Modal from '../components/Modal'
-import { SketchPicker } from 'react-color';
+import { Sketch } from '@uiw/react-color';
+import RangeSlider from 'react-range-slider-input';
+import 'react-range-slider-input/dist/style.css';
 
 const Design = () => {
 
@@ -18,26 +20,20 @@ const Design = () => {
           font, setFont,
           lineSpacing, setLineSpacing,
           spaceFromContent, setSpaceFromContent,
-          templateColor, setTemplateColor, } = globalContextHook()
+          templateColor, setTemplateColor,
+          imageSize, setImageSize,
+          imagePosition, setImagePosition,
+          imageLink, setImageLink,
+          imageShape, setImageShape } = globalContextHook()
 
-  const incrementSpaceFromContent = () => setSpaceFromContent((prev) => prev + 1)
-  const decrementSpaceFromContent = () => setSpaceFromContent((prev) => prev - 1)
+  // Simple example, see optional options for more configuration.
+
+  const incrementSpaceFromContent = () => setSpaceFromContent((prev) => (prev < 25)? prev + 5 : prev)
+  const decrementSpaceFromContent = () => setSpaceFromContent((prev) => (prev > 0) ? prev - 5 : prev)
 
   const [color, setColor] = useState("#000")
+  const [showColorPicker, setShowColorPicker] = useState(false)
 
-  const changeColor = (color) => {
-    console.log(color.hex)
-    setColor(color.hex)
-  }
-
-  useEffect(() => {
-    const colorSetter = (color) => {
-      setColor(color)
-    }
-
-    colorSetter(color)
-
-  }, [color])
 
   setActiveLink("design")
 
@@ -69,10 +65,17 @@ const Design = () => {
 
             </div>
 
-            <div className="font-size flex w-full flex-grow justify-between items-center">
+            <div className="font-size flex w-full flex-grow justify-between items-center relative">
 
               <span className='text-gray-500 capitalize'>Font size</span>
-              <input type="range" name="font size" max="40" min="12" value={fontSize} onChange={(e) => setFontSize(e.target.value)} className='w-1/2 bg-blue-400' id="" />
+              <input type="range" name="font size" max="20" min="12" value={fontSize} onChange={(e) => setFontSize({value: e.target.value})} className='w-1/2 bg-blue-400' id="" />
+              <div className='font-size-range flex w-full absolute justify-end'>
+                <div className='flex border-1 top-2 border-gray-300 border-x-2 h-2 w-1/2 z-[-1] absolute ml-2 px-1'>
+                  <div className=' border-r-2 border-gray-300 w-1/4'></div>
+                  <div className=' border-r-2 border-gray-300 w-1/4'></div>
+                  <div className=' border-r-2 border-gray-300 w-1/4'></div>
+                </div>
+              </div>
 
             </div>
 
@@ -80,9 +83,9 @@ const Design = () => {
 
               <span className='text-gray-500 capitalize flex-grow'>line spacing</span>
               <div className="spacings flex flex-grow">
-                <button className='border-t-2 border-b-2 border-l-2 border-gray-200 text-blue-400 p-2 py-1 w-full'>0.5</button>
-                <button className='border-2 border-gray-200 text-blue-400 p-2 py-1 w-full'>1.0</button>
-                <button className='border-t-2 border-b-2 border-r-2 border-gray-200 text-blue-400 p-2 py-1 w-full'>2.0</button>
+                <button onClick={() => setLineSpacing({type: "SMALL"})} className='border-t-2 border-b-2 border-l-2 border-gray-200 text-blue-400 p-2 py-1 w-full'>0.5</button>
+                <button onClick={() => setLineSpacing({type: "WIDE"})} className='border-2 border-gray-200 text-blue-400 p-2 py-1 w-full'>1.0</button>
+                <button onClick={() => setLineSpacing({type: "BIG"})} className='border-t-2 border-b-2 border-r-2 border-gray-200 text-blue-400 p-2 py-1 w-full'>2.0</button>
               </div>
 
             </div>
@@ -98,27 +101,29 @@ const Design = () => {
 
             </div>
 
-            <div className="space-from-content flex w-full flex-grow justify-between items-center">
+            <div className="space-from-content flex w-full flex-grow justify-between items-center relative">
 
               <span className='text-gray-500 capitalize flex-grow'>template color</span>
               <div className="spacings flex flex-grow w-[140px] gap-2 overflow-scroll no-scrollbar">
-                <button className="bg-green-500 rounded-full w-5 h-5"></button>
-                <button className="bg-red-500 rounded-full w-5 h-5"></button>
-                <button className="bg-violet-500 rounded-full w-5 h-5"></button>
-                <button className="bg-indigo-500 rounded-full w-5 h-5"></button>
-                <button className="bg-yellow-500 rounded-full w-5 h-5"></button>
-                <button className="bg-slate-500 rounded-full w-5 h-5"></button>
-                <button className="bg-orange-500 rounded-full w-5 h-5"></button>
-                <button className="border-gray-300 border-2 flex items-center justify-center rounded-full w-5 h-5">+</button>
+                <button className="bg-green-500 rounded-full w-5 h-5" color='#22c55e' onClick={(e) => {setTemplateColor(e.target.attributes.color.nodeValue)}}></button>
+                <button className="bg-red-500 rounded-full w-5 h-5" color='#ef4444' onClick={(e) => {setTemplateColor(e.target.attributes.color.nodeValue)}}></button>
+                <button className="bg-violet-500 rounded-full w-5 h-5" color='#8b5cf6' onClick={(e) => {setTemplateColor(e.target.attributes.color.nodeValue)}}></button>
+                <button className="bg-indigo-500 rounded-full w-5 h-5" color='#6366f1' onClick={(e) => {setTemplateColor(e.target.attributes.color.nodeValue)}}></button>
+                <button className="bg-yellow-500 rounded-full w-5 h-5" color='#eab308' onClick={(e) => {setTemplateColor(e.target.attributes.color.nodeValue)}}></button>
+                <button className="bg-slate-500 rounded-full w-5 h-5" color='#64748b' onClick={(e) => {setTemplateColor(e.target.attributes.color.nodeValue)}}></button>
+                <button className="bg-orange-500 rounded-full w-5 h-5" color='#f97316' onClick={(e) => {setTemplateColor(e.target.attributes.color.nodeValue)}}></button>
+                <button onClick={() => setShowColorPicker(!showColorPicker)} className="border-gray-300 border-2 flex items-center justify-center rounded-full w-5 h-5">+</button>
               </div>
 
-              <Modal open={true}>
-                <SketchPicker
-                  onChangeComplete={(e) => changeColor(e)}
-                  color={color}
+              <div className={`absolute z-99 top-0 right-4 ${showColorPicker ? "visible" : "hidden"}`} open={true}>
+                <Sketch
+                  style={{ marginLeft: 20 }}
+                  color={templateColor}
+                  onChange={(color) => {
+                    setTemplateColor(color.hex);
+                  }}
                 />
-                <button className={`bg-${color}`} >color Changed</button>
-              </Modal>
+              </div>
 
             </div>
 
@@ -128,18 +133,18 @@ const Design = () => {
 
           <div className="images my-5 flex flex-col gap-4">
 
-              <div className="shapes flex">
+              <div className="shapes flex">font-size-range 
 
                 <span className='text-gray-500 capitalize flex-grow'>shapes</span>
 
                 <div className="spacings flex flex-grow">
-                  <button className='flex items-center justify-center border-t-2 border-b-2 border-l-2 border-gray-200 text-blue-400 p-2 py-1 w-full'>
+                  <button onClick={() => setImageShape({type: "ROUNDED"})} className='flex items-center justify-center border-t-2 border-b-2 border-l-2 border-gray-200 text-blue-400 p-2 py-1 w-full'>
                     <BiSquareRounded/>
                   </button>
-                  <button className='flex items-center justify-center border-2 border-gray-200 text-blue-400 p-2 py-1 w-full'>
+                  <button onClick={() => setImageShape({type: "SQUARE"})} className='flex items-center justify-center border-2 border-gray-200 text-blue-400 p-2 py-1 w-full'>
                     <BiSquare/>
                   </button>
-                  <button className='flex items-center justify-center border-t-2 border-b-2 border-r-2 border-gray-200 text-blue-400 p-2 py-1 w-full'>
+                  <button onClick={() => setImageShape({type: "FULL"})} className='flex items-center justify-center border-t-2 border-b-2 border-r-2 border-gray-200 text-blue-400 p-2 py-1 w-full'>
                     <BsCircle/>
                   </button>
                 </div>
@@ -149,7 +154,7 @@ const Design = () => {
               <div className="size flex">
 
                 <span className="text-gray-500 capitalize flex-grow">size</span>
-                <input type="range" name="font size" max="40" min="12" value="20" className='w-1/2 bg-blue-400 z-10' id="" />
+                <input type="range" name="font size" max="200" min="24" value={imageSize} onChange={(e) => setImageSize(parseInt(e.target.value))} className='w-1/2 bg-blue-400' id="" />
 
               </div>
 
@@ -158,13 +163,13 @@ const Design = () => {
                 <span className="text-gray-500 capitalize flex-grow">position</span>
 
                 <div className="spacings flex flex-grow">
-                  <button className='flex items-center justify-center border-t-2 border-b-2 border-l-2 border-gray-200 text-blue-400 p-2 py-1 w-full'>
+                  <button onClick={() => setImagePosition({type: "TOP"})} className='flex items-center justify-center border-t-2 border-b-2 border-l-2 border-gray-200 text-blue-400 p-2 py-1 w-full'>
                     <AiOutlineBorderTop/>
                   </button>
-                  <button className='flex items-center justify-center border-2 border-gray-200 text-blue-400 p-2 py-1 w-full'>
+                  <button onClick={() => setImagePosition({type: "MIDDLE"})} className='flex items-center justify-center border-2 border-gray-200 text-blue-400 p-2 py-1 w-full'>
                     <AiOutlineBorderVerticle/>
                   </button>
-                  <button className='flex items-center justify-center border-t-2 border-b-2 border-r-2 border-gray-200 text-blue-400 p-2 py-1 w-full'>
+                  <button onClick={() => setImagePosition({type: "BOTTOM"})} className='flex items-center justify-center border-t-2 border-b-2 border-r-2 border-gray-200 text-blue-400 p-2 py-1 w-full'>
                     <AiOutlineBorderBottom/>
                   </button>
                 </div>
@@ -174,7 +179,7 @@ const Design = () => {
               <div className="image-link flex items-center">
 
                 <span className='text-gray-500 capitalize flex-grow'>image link</span>
-                <input type="text" name='image link' placeholder='www.mywebsite.com' className='border-b-2 border-gray-400 outline-none p-2 w-[230px]' />
+                <input type="text" value={imageLink} onChange={(e) => setImageLink(e.target.value)} name='image link' placeholder='www.mywebsite.com' className='border-b-2 border-gray-400 outline-none p-2 w-[230px]' />
 
               </div>
 

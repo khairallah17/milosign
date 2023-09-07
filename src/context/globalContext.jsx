@@ -23,17 +23,42 @@ export const GlobalProvider = ({ children }) => {
 
     // TEXT DESIGN
     const [font, setFont] = useState("")
-    const [fontSize, setFontSize] = useState("12")
-    const [lineSpacing, setLineSpacing] = useState("")
-    const [spaceFromContent, setSpaceFromContent] = useState(0)
+    const [fontSize, setFontSize] = useReducer((fontSize, action) => {
+        if (action.value > fontSize)
+            return (fontSize + 2)
+        else if (action.value < fontSize)
+            return (fontSize - 2)
+        else
+            return (fontSize)
+    }, 18)
+    const [lineSpacing, setLineSpacing] = useReducer((lineSpacing, action) => {
+        switch (action.type) {
+            case "SMALL": return (4)
+            case "WIDE": return (8)
+            case "BIG": return (12)
+        }
+    }, 0)
+    const [spaceFromContent, setSpaceFromContent] = useState(1)
     const [templateColor, setTemplateColor] = useState("")
 
     // IMAGE DESIGN
-    const [imageShape, setImageShape] = useReducer(() => {
+    const [imageShape, setImageShape] = useReducer((imageShape, action) => {
+        switch (action.type) {
+            case "SQUARE": return ("0")
+            case "ROUNDED": return ("12%")
+            case "FULL": return ("100%")
+        }
+    }, "")
+    const [imageSize, setImageSize] = useState(70)
+    const [imagePosition, setImagePosition] = useReducer((imagePosition, action) => {
+
+        switch (action.type) {
+            case "TOP" : return ("justify-start");
+            case "MIDDLE" : return ("justify-center");
+            case "BOTTOM" : return ("justify-end");
+        }
 
     }, "")
-    const [imageSize, setImageSize] = useState("")
-    const [imagePosition, setImagePosition] = useState("")
     const [imageLink, setImageLink] = useState("")
 
     // DETAILS DESIGN
@@ -94,6 +119,18 @@ export const GlobalProvider = ({ children }) => {
 
         //  TEMPALTE DESIGN
         templates, setTemplates,
+
+        //IMAGE DESIGN
+        imageSize, setImageSize,
+        imagePosition, setImagePosition,
+        imageLink, setImageLink,
+        imageShape, setImageShape,
+
+        //DESIGN DETAILS
+        label, setLabel,
+        direction, setDirection,
+        separator, setSeparator,
+        textColor, setTextColor
     }
 
     return (
